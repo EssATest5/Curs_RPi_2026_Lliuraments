@@ -63,7 +63,8 @@ DHT_humitat = 0.0
 DHT_temp = 0.0
 
 #Per Telegram:
-TELEGRAM_TOKEN = "8911193196:AAE-YhDr7t1WMcbEXuXr8tDIYXIHVVzmbXg"
+TELEGRAM_TOKEN = "8593097818:AAGjuSLMThrjafNj3bM5l7Vby5cku7EpJvU"
+myBot = telebot.TeleBot(TELEGRAM_TOKEN)
 
 # Senyal compartit per indicar als fils que han de parar
 aturar = threading.Event()
@@ -369,14 +370,14 @@ def DHT_inicia():
 # per Telegram
 #////////////////////////////////////////////////////////////////////////////////
 # Registre dels gestors: 
-@bot.message_handler(commands=["temp"])
+@myBot.message_handler(commands=["?T"])
 def enviar_temperatura(message):
-    bot.send_message(message.chat.id,f"Temp ={DHT_temp} ºC"
+    myBot.send_message(message.chat.id,f"Temp ={DHT_temp} ºC"
     )
 
-@bot.message_handler(commands=["hum"])
+@myBot.message_handler(commands=["?H"])
 def enviar_humitat(message):
-    bot.send_message(message.chat.id, f"Hum ={DHT_humitat} %"
+    myBot.send_message(message.chat.id, f"Hum ={DHT_humitat} %"
     )
 
 #////////////////////////////////////////////////////////////////////////////////
@@ -384,8 +385,8 @@ def enviar_humitat(message):
 #////////////////////////////////////////////////////////////////////////////////
 def fluxe_telegram():
     #pool infinit, segurametn es pot millora pq no estigui sempre fent pooling i esgoti bateries. 
-    #bot.add_custom_filter(telebot.custom_filters.ChatFilter()) crec que no cal en aquest cas
-    bot.infinity_polling()
+    #myBot.add_custom_filter(telebot.custom_filters.ChatFilter()) crec que no cal en aquest cas
+    myBot.infinity_polling()
 #////////////////////////////////////////////////////////////////////////////////
     
 ########################################################
@@ -393,8 +394,6 @@ def fluxe_telegram():
 
 
 #/// M A I N ////////////////////////////////////////////////////////////////////
-bot = telebot.TeleBot(TOKEN)
-
 LCD_inicia_pantalla()
 LCD_crea_caracters_barra()
 LCD_envia_Cadena("Test en marxa...")
@@ -404,7 +403,7 @@ test_leds(10, 0.05) #cinc vegades i 0.1 temps
 fil_distancia = threading.Thread(target=fluxe_mesura_distancia)
 fil_llums = threading.Thread(target=fluxe_llums)
 fil_temp = threading.Thread(target=fluxe_mesura_temp)
-fil_telegram = threadins.Thread(target= fluxe_telegram)
+fil_telegram = threading.Thread(target= fluxe_telegram)
 
 fil_distancia.start()
 fil_llums.start()
@@ -434,7 +433,7 @@ except KeyboardInterrupt: # Missatge de finalització
 
     #avisem els fils 
     aturar.set()  
-    bot.stop_polling() # el fil de telegram no te un while     
+    myBot.stop_polling() # el fil de telegram no te un while     
 
     #esperem que acavin tots
     fil_distancia.join()
