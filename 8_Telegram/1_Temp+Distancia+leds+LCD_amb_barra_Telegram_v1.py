@@ -369,6 +369,7 @@ def DHT_inicia():
 # per Telegram
 #////////////////////////////////////////////////////////////////////////////////
 # Registre dels gestors: 
+@bot.message_handler(commands=["temp"])
 def enviar_temperatura(message):
     bot.send_message(message.chat.id,f"Temp ={DHT_temp} ºC"
     )
