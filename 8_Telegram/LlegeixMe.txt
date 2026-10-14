@@ -1,0 +1,13 @@
+Incorpora totes les practiques.
+Leds
+Sensor de distancia
+LCD  He incoorporar caracter especials per representar la distancia, tambè, amb una barra
+Sensor de temperatura
+Telegram
+
+Tot amb threads , La presentacióo de dades del LCD es fa al main
+
+Telegram: He modificat i respon als comandos /?T per temperatura i /?H per humitat . El bloc bot.fluxe_telegram el faiga amb un thread que nomès comptè això
+
+
+
